@@ -69,14 +69,14 @@ PLMの有限要素法への適用
 \end_layout
 
 \begin_layout Section
-１次元波動方程式の有限要素法による離散化
+１次元波動方程式への有限要素法の適用
 \end_layout
 
 \begin_layout Standard
 １次元の波動方程式は次式のように表せる。
 \begin_inset Formula 
 \[
-\dfrac{\partial^{2}\phi}{\partial t^{2}}=V_{P}^{2}\dfrac{\partial^{2}\phi}{\partial x^{2}}
+\dfrac{\partial^{2}\phi}{\partial x^{2}}-\dfrac{1}{V_{P}^{2}}\dfrac{\partial^{2}\phi}{\partial t^{2}}=f
 \]
 
 \end_inset
@@ -84,7 +84,7 @@ PLMの有限要素法への適用
 定常状態を仮定すると、
 \begin_inset Formula 
 \[
-\omega^{2}\phi\left(\omega\right)=V_{P}^{2}\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}
+\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}-\dfrac{\omega^{2}}{V_{P}^{2}}\phi\left(\omega\right)=f\left(\omega\right)
 \]
 
 \end_inset
@@ -106,22 +106,11 @@ N_{2}\left(x\right) & = & 1-\dfrac{x}{L}
 
 \end_inset
 
-両辺に重み付き関数をかけると次式のようになる
+左辺に重み付き関数をかけ積分すると次式のように弱形式に変形ができる。
 \begin_inset Formula 
 \begin{eqnarray*}
-\omega^{2}N_{1}\left(x\right)\phi\left(\omega\right) & = & V_{P}^{2}\left(N_{1}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\\
- & = & V_{P}^{2}\left(\left[\dfrac{\partial N_{1}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)\\
-\omega^{2}N_{2}\left(x\right)\phi\left(\omega\right) & = & V_{P}^{2}\left(N_{2}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\\
- & = & V_{P}^{2}\left(\left[\dfrac{\partial N_{2}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)
-\end{eqnarray*}
-
-\end_inset
-
-さらに積分を行うと次式となる
-\begin_inset Formula 
-\begin{eqnarray*}
-\omega^{2}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\, dx+V_{P}^{2}\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & 0\\
-\omega^{2}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\, dx+V_{P}^{2}\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & 0
+\int_{0}^{L}\!\left(N_{1}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\ dx-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\ dx & = & \left(\left[\dfrac{\partial N_{1}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\ dx\\
+\int_{0}^{L}\!\left(N_{2}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\ dx-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\ dx & = & \left(\left[\dfrac{\partial N_{2}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\, dx
 \end{eqnarray*}
 
 \end_inset
@@ -163,20 +152,11 @@ N_{2}\left(x\right) & = & 1-\dfrac{x}{L}
 
 \end_inset
 
-ゆえに、
-\begin_inset Formula 
-\begin{eqnarray*}
-\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & \phi_{1}-\phi_{2}\\
-\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & \phi_{2}-\phi_{1}
-\end{eqnarray*}
-
-\end_inset
-
 以上から、
 \begin_inset Formula 
 \begin{eqnarray*}
-\omega^{2}\left(\dfrac{L^{2}}{3}\phi_{1}+\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\phi_{2}\right)+V_{P}^{2}\left(\phi_{1}-\phi_{2}\right) & = & 0\\
-\omega^{2}\left(\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\phi_{1}+\dfrac{L}{3}\phi_{2}\right)+V_{P}^{2}\left(\phi_{2}-\phi_{1}\right) & = & 0
+-\dfrac{\phi_{1}-\phi_{2}}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\left(\dfrac{L^{2}}{3}\phi_{1}+\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\phi_{2}\right) & = & f_{1}\\
+\dfrac{\phi_{1}-\phi_{2}}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\left(\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\phi_{1}+\dfrac{L}{3}\phi_{2}\right) & = & f_{2}
 \end{eqnarray*}
 
 \end_inset
@@ -185,14 +165,14 @@ N_{2}\left(x\right) & = & 1-\dfrac{x}{L}
 \begin_inset Formula 
 \[
 \left[\begin{array}{cc}
-\omega^{2}\dfrac{L^{2}}{3}+V_{P}^{2} & \omega^{2}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)-V_{P}^{2}\\
-\omega^{2}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)-V_{P}^{2} & \omega^{2}\dfrac{L}{3}+V_{P}^{2}
+-\dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\dfrac{L^{2}}{3} & \dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\\
+\dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right) & -\dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\dfrac{L}{3}
 \end{array}\right]\left\{ \begin{array}{c}
 \phi_{1}\\
 \phi_{2}
 \end{array}\right\} =\left\{ \begin{array}{c}
-0\\
-0
+f_{1}\\
+f_{2}
 \end{array}\right\} 
 \]
 

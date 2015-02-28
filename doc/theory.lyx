@@ -109,8 +109,10 @@ N_{2}\left(x\right) & = & 1-\dfrac{x}{L}
 左辺に重み付き関数をかけ積分すると次式のように弱形式に変形ができる。
 \begin_inset Formula 
 \begin{eqnarray*}
-\int_{0}^{L}\!\left(N_{1}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\ dx-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\ dx & = & \left(\left[\dfrac{\partial N_{1}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\ dx\\
-\int_{0}^{L}\!\left(N_{2}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\ dx-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\ dx & = & \left(\left[\dfrac{\partial N_{2}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\, dx
+\int_{0}^{L}\!\left(N_{1}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\ dx-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\ dx & = & \left(\left[\dfrac{\partial N_{1}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)\\
+ &  & -\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\ dx\\
+\int_{0}^{L}\!\left(N_{2}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\ dx-\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\ dx & = & \left(\left[\dfrac{\partial N_{2}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)\\
+ &  & -\dfrac{\omega^{2}}{V_{P}^{2}}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\, dx
 \end{eqnarray*}
 
 \end_inset
@@ -164,10 +166,13 @@ N_{2}\left(x\right) & = & 1-\dfrac{x}{L}
 ゆえに
 \begin_inset Formula 
 \[
-\left[\begin{array}{cc}
--\dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\dfrac{L^{2}}{3} & \dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\\
-\dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right) & -\dfrac{1}{L}-\dfrac{\omega^{2}}{V_{P}^{2}}\dfrac{L}{3}
-\end{array}\right]\left\{ \begin{array}{c}
+\left(\left[\begin{array}{cc}
+-\dfrac{1}{L} & \dfrac{1}{L}\\
+\dfrac{1}{L} & -\dfrac{1}{L}
+\end{array}\right]-\dfrac{\omega^{2}}{V_{P}^{2}}\left[\begin{array}{cc}
+\dfrac{L^{2}}{3} & \dfrac{L}{2}-\dfrac{L^{2}}{3}\\
+\dfrac{L}{2}-\dfrac{L^{2}}{3} & \dfrac{L}{3}
+\end{array}\right]\right)\left\{ \begin{array}{c}
 \phi_{1}\\
 \phi_{2}
 \end{array}\right\} =\left\{ \begin{array}{c}

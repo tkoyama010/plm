@@ -1,0 +1,205 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language japanese
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+PLMの有限要素法への適用
+\end_layout
+
+\begin_layout Author
+小山哲央
+\end_layout
+
+\begin_layout Section
+１次元波動方程式の有限要素法による離散化
+\end_layout
+
+\begin_layout Standard
+１次元の波動方程式は次式のように表せる。
+\begin_inset Formula 
+\[
+\dfrac{\partial^{2}\phi}{\partial t^{2}}=V_{P}^{2}\dfrac{\partial^{2}\phi}{\partial x^{2}}
+\]
+
+\end_inset
+
+定常状態を仮定すると、
+\begin_inset Formula 
+\[
+\omega^{2}\phi\left(\omega\right)=V_{P}^{2}\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}
+\]
+
+\end_inset
+
+この式を有限要素法を使用して離散化する。
+\begin_inset Formula 
+\[
+\phi\left(\omega\right)=\sum_{n=1}^{2}N_{n}\left(x\right)\phi_{n}
+\]
+
+\end_inset
+
+ただし、
+\begin_inset Formula 
+\begin{eqnarray*}
+N_{1}\left(x\right) & = & \dfrac{x}{L}\\
+N_{2}\left(x\right) & = & 1-\dfrac{x}{L}
+\end{eqnarray*}
+
+\end_inset
+
+両辺に重み付き関数をかけると次式のようになる
+\begin_inset Formula 
+\begin{eqnarray*}
+\omega^{2}N_{1}\left(x\right)\phi\left(\omega\right) & = & V_{P}^{2}\left(N_{1}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\\
+ & = & V_{P}^{2}\left(\left[\dfrac{\partial N_{1}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)\\
+\omega^{2}N_{2}\left(x\right)\phi\left(\omega\right) & = & V_{P}^{2}\left(N_{2}\left(x\right)\dfrac{\partial^{2}\phi\left(\omega\right)}{\partial x^{2}}\right)\\
+ & = & V_{P}^{2}\left(\left[\dfrac{\partial N_{2}\left(x\right)}{\partial x}\phi\left(\omega\right)\right]_{0}^{L}-\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\right)
+\end{eqnarray*}
+
+\end_inset
+
+さらに積分を行うと次式となる
+\begin_inset Formula 
+\begin{eqnarray*}
+\omega^{2}\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\, dx+V_{P}^{2}\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & 0\\
+\omega^{2}\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\, dx+V_{P}^{2}\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & 0
+\end{eqnarray*}
+
+\end_inset
+
+各項の式は以下の通りとなる。
+\begin_inset Formula 
+\begin{eqnarray*}
+\int_{0}^{L}\! N_{1}\left(x\right)\phi\left(\omega\right)\, dx & = & \int_{0}^{L}\! N_{1}\left(x\right)\left(N_{1}\left(x\right)\phi_{1}+N_{2}\left(x\right)\phi_{2}\right)\, dx\\
+ & = & \left(\int_{0}^{L}\! N_{1}^{2}\left(x\right)\, dx\right)\phi_{1}+\left(\int_{0}^{L}\! N_{1}\left(x\right)N_{2}\left(x\right)\, dx\right)\phi_{2}\\
+\int_{0}^{L}\! N_{2}\left(x\right)\phi\left(\omega\right)\, dx & = & \int_{0}^{L}\! N_{2}\left(x\right)\left(N_{1}\left(x\right)\phi_{1}+N_{2}\left(x\right)\phi_{2}\right)\, dx\\
+ & = & \left(\int_{0}^{L}\! N_{2}\left(x\right)N_{1}\left(x\right)\, dx\right)\phi_{1}+\left(\int_{0}^{L}\! N_{2}^{2}\left(x\right)\, dx\right)\phi_{2}
+\end{eqnarray*}
+
+\end_inset
+
+ここで、
+\begin_inset Formula 
+\begin{eqnarray*}
+\int_{0}^{L}\! N_{1}^{2}\left(x\right)\, dx & = & \int_{0}^{L}\!\left(\dfrac{x}{L}\right)^{2}\, dx\\
+ & = & \dfrac{L^{2}}{3}\\
+\int_{0}^{L}\! N_{1}\left(x\right)N_{2}\left(x\right)\, dx & = & \int_{0}^{L}\!\dfrac{x}{L}\left(1-\dfrac{x}{L}\right)\, dx\\
+ & = & \dfrac{L}{2}-\dfrac{L^{2}}{3}\\
+\int_{0}^{L}\! N_{2}^{2}\left(x\right)\, dx & = & \int_{0}^{L}\!\left(1-\dfrac{x}{L}\right)^{2}\, dx\\
+ & = & \dfrac{L}{3}
+\end{eqnarray*}
+
+\end_inset
+
+また、
+\begin_inset Formula 
+\begin{eqnarray*}
+\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx & = & \int_{0}^{L}\!\dfrac{1}{L}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\\
+ & = & \int_{0}^{L}\!\dfrac{1}{L}\left(\dfrac{\partial N_{1}}{\partial x}\phi_{1}+\dfrac{\partial N_{2}}{\partial x}\phi_{2}\right)\, dx\\
+ & = & \int_{0}^{L}\!\dfrac{1}{L^{2}}\left(\phi_{1}-\phi_{2}\right)\, dx\\
+ & = & \dfrac{\phi_{1}-\phi_{2}}{L}\\
+\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx & = & -\int_{0}^{L}\!\dfrac{1}{L}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\\
+ & = & -\dfrac{\phi_{1}-\phi_{2}}{L}
+\end{eqnarray*}
+
+\end_inset
+
+ゆえに、
+\begin_inset Formula 
+\begin{eqnarray*}
+\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{1}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & \phi_{1}-\phi_{2}\\
+\int_{0}^{L}\!\int_{0}^{L}\!\dfrac{\partial N_{2}\left(x\right)}{\partial x}\dfrac{\partial\phi\left(\omega\right)}{\partial x}\, dx\, dx & = & \phi_{2}-\phi_{1}
+\end{eqnarray*}
+
+\end_inset
+
+以上から、
+\begin_inset Formula 
+\begin{eqnarray*}
+\omega^{2}\left(\dfrac{L^{2}}{3}\phi_{1}+\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\phi_{2}\right)+V_{P}^{2}\left(\phi_{1}-\phi_{2}\right) & = & 0\\
+\omega^{2}\left(\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)\phi_{1}+\dfrac{L}{3}\phi_{2}\right)+V_{P}^{2}\left(\phi_{2}-\phi_{1}\right) & = & 0
+\end{eqnarray*}
+
+\end_inset
+
+ゆえに
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+\omega^{2}\dfrac{L^{2}}{3}+V_{P}^{2} & \omega^{2}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)-V_{P}^{2}\\
+\omega^{2}\left(\dfrac{L}{2}-\dfrac{L^{2}}{3}\right)-V_{P}^{2} & \omega^{2}\dfrac{L}{3}+V_{P}^{2}
+\end{array}\right]\left\{ \begin{array}{c}
+\phi_{1}\\
+\phi_{2}
+\end{array}\right\} =\left\{ \begin{array}{c}
+0\\
+0
+\end{array}\right\} 
+\]
+
+\end_inset
+
+この連立方程式を重ね合わせることにより１次元の弾性体の定常応答解析が可能である。
+\end_layout
+
+\end_body
+\end_document
